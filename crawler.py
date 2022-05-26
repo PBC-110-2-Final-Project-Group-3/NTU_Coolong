@@ -67,6 +67,7 @@ class NTUCoolCrawler:
         The parameters it takes is cid (course id) and s (context manager).
         It outputs a list containing Assignment objects.
         Example: [object_1, object_2, ...]
+        And the function only crawls assignments that have not been submitted.
         """
         # Set up
         url = (f"https://cool.ntu.edu.tw/api/v1/courses/{cid}"
@@ -86,11 +87,51 @@ class NTUCoolCrawler:
                 # print(assi_object)
                 assignments.append(assi_object)
         # print(cid, ": ok!")
+        # Finish crawling assignment
         return assignments
-
-    def get_assignments_from_courses(self):
+    
+    def _get_quizzes(self, cid, s):
+        """
+        The parameters it takes is cid (course id) and s (context manager).
+        It outputs a list containing Quiz objects.
+        Example: [object_1, object_2, ...]
+        """
         # Set up
-        cour_assi = {}
+        url = ("https://cool.ntu.edu.tw/api/v1/courses/"
+               f"{cid}/quizzes?per_page=100000000")
+        quizzes = []
+        # Finish setting up
+
+        # Crawl quizzes by class id
+        r = s.get(url)
+        dt = json.loads(r.text)
+        for quiz in dt:
+            name = quiz["title"]
+            deadline = quiz["due_at"]
+            quiz_object = Quiz(name, deadline)
+            quizzes.append(quiz_object)
+        # Finish crawling quizzes
+        return quizzes
+
+    def get_assignments_or_quizzes(self, course_data_type):
+        """
+        The function takes the parameter which decide
+        the objective is assignment or quiz.
+        It outputs every unsubmitted assignments or upcoming quizzes.
+
+        The output is a dictionary.
+        The keys are courses' name, and the values are assignment
+        or quiz object.
+
+        Example 1:
+            {course_1: [assignment_1, assignment_2, ...],
+             course_2: [assignment_3, assignment_4, ...], ...}
+        Example 2:
+            {course_1: [quiz_1, quiz_2, ...],
+             course_2: [quiz_3, quiz_4, ...], ...}
+        """
+        # Set up
+        course_data = {}
         # Finish setting up
 
         with requests.Session() as s:
@@ -98,9 +139,12 @@ class NTUCoolCrawler:
             courses = self._get_courses_id(s)
             for id in courses.keys():
                 course_name = courses[id]
-                assignments = self._get_unsubmitted_assignments(id, s)
-                cour_assi[course_name] = assignments
-        return cour_assi
+                if course_data_type == "assignments":
+                    data = self._get_unsubmitted_assignments(id, s)
+                elif course_data_type == "quizzes":
+                    data = self._get_quizzes(id, s)
+                course_data[course_name] = data
+        return course_data
 
 
 class Assignment:
@@ -111,6 +155,19 @@ class Assignment:
 
     def __repr__(self):
         name_str = "Assignment name: " + str(self.name)
+        dl_str = "Deadline: " + str(self.deadline)
+        output_str = name_str + " => " + dl_str
+        return output_str
+
+
+class Quiz:
+    def __init__(self, name, deadline):
+        self.name = name
+        self.deadline = deadline
+        self.submitted = False
+
+    def __repr__(self):
+        name_str = "Quiz name: " + str(self.name)
         dl_str = "Deadline: " + str(self.deadline)
         output_str = name_str + " => " + dl_str
         return output_str
@@ -126,7 +183,7 @@ password = ""  # Temporary
 
 # Crawl!
 crawler = NTUCoolCrawler()
-adict = crawler.get_assignments_from_courses()
+adict = crawler.get_assignments_or_quizzes("quizzes")  # It crawls quizzes
 for key in adict.keys():
     print(key + ":")
     print(adict[key], "\n===========")
