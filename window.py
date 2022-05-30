@@ -34,19 +34,29 @@ print(contents)
 from tkinter import *
 from  tkinter import ttk
 
+root = Tk()
+root.title('DeadLines')
 
-ws  = Tk()
-ws.title('DeadLines')
-ws.geometry('500x300')
+# add style => looks more like ntucool
+style = ttk.Style(root)
+style.theme_use("clam")
+style.configure("Treeview.Heading", background="#0BB3D9", foreground="#D94848")
+style.map('Treeview', background=[('selected','#F27D72')])
 
-set = ttk.Treeview(ws)
+
+# root.geometry('500x300')
+
+
+set = ttk.Treeview(root)
 set.pack(fill='x')
+
+
 
 set['columns']= ('class_id','class','content','date', 'time')
 set.column("#0", width=0, stretch=NO)
 set.column("class_id",anchor=CENTER,width=60)
-set.column("class",anchor=CENTER, width=80)
-set.column("content",anchor=CENTER, width=100)
+set.column("class",anchor=CENTER)
+set.column("content",anchor=CENTER)
 set.column("date",anchor=CENTER, width=60)
 set.column("time",anchor=CENTER, width=60)
 
@@ -63,8 +73,8 @@ set.heading("time",text="Time",anchor=CENTER)
 set.insert(parent='',index='end',iid=0,text='',
 values=(ids[0],id_n_classes.get(ids[0]),contents[0],'05/12','02:20'))
 set.insert(parent='',index='end',iid=1,text='',
-values=(ids[1],id_n_classes.get(ids[1]),contents[1],'06/09',))
+values=(ids[1],id_n_classes.get(ids[1]),contents[1],'06/09','12:59'))
 set.insert(parent='',index='end',iid=2,text='',
 values=(ids[2],id_n_classes.get(ids[2]),contents[2],'06/15','18:00'))
 
-ws.mainloop()
+root.mainloop()
