@@ -10,6 +10,7 @@
 希望整個視窗的高度可以隨課程數(n)變化
 
 '''
+# imput
 n = int(input())
 ids = []
 for i in range(n):
@@ -46,7 +47,6 @@ style.map('Treeview', background=[('selected','#F27D72')])
 
 # root.geometry('500x300')
 
-
 set = ttk.Treeview(root)
 set.pack(fill='x')
 
@@ -60,7 +60,7 @@ set.column("content",anchor=CENTER)
 set.column("date",anchor=CENTER, width=60)
 set.column("time",anchor=CENTER, width=60)
 
-# 標題
+# header
 set.heading("#0",text="",anchor=CENTER)
 set.heading("class_id",text="Class ID",anchor=CENTER)
 set.heading("class",text="Class",anchor=CENTER)
@@ -69,12 +69,15 @@ set.heading("date",text="Date",anchor=CENTER)
 set.heading("time",text="Time",anchor=CENTER)
 
 
-# 清單
-set.insert(parent='',index='end',iid=0,text='',
-values=(ids[0],id_n_classes.get(ids[0]),contents[0],'05/12','02:20'))
-set.insert(parent='',index='end',iid=1,text='',
-values=(ids[1],id_n_classes.get(ids[1]),contents[1],'06/09','12:59'))
-set.insert(parent='',index='end',iid=2,text='',
-values=(ids[2],id_n_classes.get(ids[2]),contents[2],'06/15','18:00'))
+# lists
+
+for i in range(n):
+    set.insert(parent='',index='end',iid=i,text='',values=(ids[i],id_n_classes.get(ids[i]),contents[i],'05/12','02:20'))
+        
+
+# set.insert(parent='',index='end',iid=1,text='',
+# values=(ids[1],id_n_classes.get(ids[1]),contents[1],'06/09','12:59'))
+# set.insert(parent='',index='end',iid=2,text='',
+# values=(ids[2],id_n_classes.get(ids[2]),contents[2],'06/15','18:00'))
 
 root.mainloop()
