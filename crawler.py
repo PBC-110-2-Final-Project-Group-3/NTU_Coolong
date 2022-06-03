@@ -83,8 +83,9 @@ class NTUCoolCrawler:
             if not assi["has_submitted_submissions"]:
                 name = assi["name"]
                 deadline = assi["due_at"]
+                if deadline is None:
+                    continue
                 assi_object = Assignment(name, deadline)
-                # print(assi_object)
                 assignments.append(assi_object)
         # print(cid, ": ok!")
         # Finish crawling assignment
@@ -110,6 +111,8 @@ class NTUCoolCrawler:
                 continue
             name = quiz["title"]
             deadline = quiz["due_at"]
+            if deadline is None:
+                continue
             quiz_object = Quiz(name, deadline)
             quizzes.append(quiz_object)
         # Finish crawling quizzes
@@ -118,7 +121,7 @@ class NTUCoolCrawler:
     def get_assignments_or_quizzes(self, course_data_type):
         """
         The function takes the parameter which decide
-        the objective is assignment or quiz.
+        the objective is assignment(0) or quiz(1).
         It outputs every unsubmitted assignments or upcoming quizzes.
 
         The output is a dictionary.
@@ -141,11 +144,12 @@ class NTUCoolCrawler:
             courses = self._get_courses_id(s)
             for id in courses.keys():
                 course_name = courses[id]
-                if course_data_type == "assignments":
+                if course_data_type in ("assignments", 0):
                     data = self._get_unsubmitted_assignments(id, s)
-                elif course_data_type == "quizzes":
+                elif course_data_type in ("quizzes", 1):
                     data = self._get_quizzes(id, s)
-                course_data[course_name] = data
+                if data != []:
+                    course_data[course_name] = data
         return course_data
 
 
@@ -153,12 +157,11 @@ class Requirement:
     def __init__(self, name, deadline):
         self.name = name
         self.deadline = self.datetime_handler(deadline)
-        self.submitted = False
 
     def __repr__(self):
-        name_str = "Assignment name: " + str(self.name)
+        name_str = "Name: " + str(self.name)
         dl_str = "Deadline: " + str(self.deadline)
-        output_str = name_str + " => " + dl_str
+        output_str = name_str + " , " + dl_str
         return output_str
     
     def datetime_handler(self, deadline):
@@ -172,19 +175,10 @@ class Requirement:
 
 
 class Assignment(Requirement):
-    def __repr__(self):
-        name_str = "Assignment name: " + str(self.name)
-        dl_str = "Deadline: " + str(self.deadline)
-        output_str = name_str + " => " + dl_str
-        return output_str
-
+    submitted = False
 
 class Quiz(Requirement):
-    def __repr__(self):
-        name_str = "Quiz name: " + str(self.name)
-        dl_str = "Deadline: " + str(self.deadline)
-        output_str = name_str + " => " + dl_str
-        return output_str
+    due = False
 # Finish defining classes
 
 
