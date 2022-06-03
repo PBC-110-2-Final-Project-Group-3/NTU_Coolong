@@ -2,6 +2,7 @@
 import requests
 from bs4 import BeautifulSoup as bs4
 import json
+import datetime
 # Finish importing libraries
 
 
@@ -52,13 +53,12 @@ class NTUCoolCrawler:
         r = s.get(url)
         dt = json.loads(r.text)
         for course in dt:
-            # Chech the access to the course
-            id = course.get("id")
-            # print(f"id ok!  ID: {id}")
+            # Check the access to the course
             name = course.get("name")
-            # print(f"name ok!  ID: {id}")
             if not (name is None):
+                id = course.get("id")
                 courses[id] = name
+            # Finish checking the access
         # Finish crawling id
         return courses
 
@@ -106,6 +106,8 @@ class NTUCoolCrawler:
         r = s.get(url)
         dt = json.loads(r.text)
         for quiz in dt:
+            if quiz == "message":
+                continue
             name = quiz["title"]
             deadline = quiz["due_at"]
             quiz_object = Quiz(name, deadline)
@@ -147,10 +149,10 @@ class NTUCoolCrawler:
         return course_data
 
 
-class Assignment:
+class Requirement:
     def __init__(self, name, deadline):
         self.name = name
-        self.deadline = deadline
+        self.deadline = self.datetime_handler(deadline)
         self.submitted = False
 
     def __repr__(self):
@@ -158,14 +160,26 @@ class Assignment:
         dl_str = "Deadline: " + str(self.deadline)
         output_str = name_str + " => " + dl_str
         return output_str
+    
+    def datetime_handler(self, deadline):
+        if deadline is None:
+            return None
+        fmt = "%Y-%m-%dT%H:%M:%SZ"
+        utc_8 = datetime.timedelta(hours=8)
+        dl = datetime.datetime.strptime(deadline, fmt) + utc_8
+        datetime_list = [dl.date, dl.time]
+        return datetime_list
 
 
-class Quiz:
-    def __init__(self, name, deadline):
-        self.name = name
-        self.deadline = deadline
-        self.submitted = False
+class Assignment(Requirement):
+    def __repr__(self):
+        name_str = "Assignment name: " + str(self.name)
+        dl_str = "Deadline: " + str(self.deadline)
+        output_str = name_str + " => " + dl_str
+        return output_str
 
+
+class Quiz(Requirement):
     def __repr__(self):
         name_str = "Quiz name: " + str(self.name)
         dl_str = "Deadline: " + str(self.deadline)
@@ -175,18 +189,19 @@ class Quiz:
 
 
 # Test code
-# Set up
-# The user and password should be obtained from config
-user = ""  # Temporary
-password = ""  # Temporary
-# Finish setting up
+if __name__ == "__main__":
+    # Set up
+    # The user and password should be obtained from config
+    user = ""  # Temporary
+    password = ""  # Temporary
+    # Finish setting up
 
-# Crawl!
-crawler = NTUCoolCrawler()
-adict = crawler.get_assignments_or_quizzes("quizzes")  # It crawls quizzes
-for key in adict.keys():
-    print(key + ":")
-    print(adict[key], "\n===========")
-print("=======================\nFinish!\n=======================")
-# Finish crawling
+    # Crawl!
+    crawler = NTUCoolCrawler()
+    adict = crawler.get_assignments_or_quizzes("assignments")  # It crawls quizzes
+    for key in adict.keys():
+        print(key + ":")
+        print(adict[key], "\n===========")
+    print("=======================\nFinish!\n=======================")
+    # Finish crawling
 # Finish testing code
