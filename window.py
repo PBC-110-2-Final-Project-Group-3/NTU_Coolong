@@ -12,26 +12,29 @@
 '''
 # imput
 n = int(input())
-ids = []
-for i in range(n):
-    ids.append(input("課程id："))
+# ids = []
+# for i in range(n):
+    # ids.append(input("課程id："))
 classes = []
 for i in range(n):
     classes.append(input("課程名稱："))
-id_n_classes = dict()
-for i in range(n):
-    id_n_classes[ids[i]] = classes[i]
-print(id_n_classes)  # 到時id_n_classes可以被_get_course_id()取代掉
-
 contents = []
-# dates = []
-# times = []
 for i in range(n):
     contents.append(input("作業或考試：").split(','))
-print(contents)
-# for i in range(n):
-    # dates.append(input("截止日期)
+classes_n_contents = dict()
+for i in range(n):
+    classes_n_contents[classes[i]] = contents[i]
+print(classes_n_contents)  # 到時id_n_classes可以被_get_course_id()取代掉
 
+
+dates = []
+for i in range(n):
+    dates.append(input("截止日期："))
+times = []
+for i in range(n):
+    times.append(input("截止時間："))
+
+# settings
 from tkinter import *
 from  tkinter import ttk
 
@@ -41,8 +44,8 @@ root.title('DeadLines')
 # add style => looks more like ntucool
 style = ttk.Style(root)
 style.theme_use("clam")
-style.configure("Treeview.Heading", background="#0BB3D9", foreground="#D94848")
-style.map('Treeview', background=[('selected','#F27D72')])
+style.configure("Treeview.Heading", background="beige")
+style.map('Treeview', background=[('selected','darkseagreen')])
 
 
 # root.geometry('500x300')
@@ -52,9 +55,8 @@ set.pack(fill='x')
 
 
 
-set['columns']= ('class_id','class','content','date', 'time')
+set['columns']= ('class','content','date', 'time')
 set.column("#0", width=0, stretch=NO)
-set.column("class_id",anchor=CENTER,width=60)
 set.column("class",anchor=CENTER)
 set.column("content",anchor=CENTER)
 set.column("date",anchor=CENTER, width=60)
@@ -62,22 +64,16 @@ set.column("time",anchor=CENTER, width=60)
 
 # header
 set.heading("#0",text="",anchor=CENTER)
-set.heading("class_id",text="Class ID",anchor=CENTER)
 set.heading("class",text="Class",anchor=CENTER)
 set.heading("content",text="Content",anchor=CENTER)
 set.heading("date",text="Date",anchor=CENTER)
 set.heading("time",text="Time",anchor=CENTER)
 
 
-# lists
+# output
 
 for i in range(n):
-    set.insert(parent='',index='end',iid=i,text='',values=(ids[i],id_n_classes.get(ids[i]),contents[i],'05/12','02:20'))
-        
+    set.insert(parent='',index='end',iid=i,text='',values=(classes[i],classes_n_contents.get(classes[i]),dates[i],times[i]))
 
-# set.insert(parent='',index='end',iid=1,text='',
-# values=(ids[1],id_n_classes.get(ids[1]),contents[1],'06/09','12:59'))
-# set.insert(parent='',index='end',iid=2,text='',
-# values=(ids[2],id_n_classes.get(ids[2]),contents[2],'06/15','18:00'))
 
 root.mainloop()
