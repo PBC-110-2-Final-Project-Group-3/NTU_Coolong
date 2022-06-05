@@ -9,22 +9,34 @@ import datetime
 # Define classes
 class NTUCoolCrawler:
     def _login(self, s, user, password):
+        # Set up
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67"
             " Safari/537.36"}
-        pre_login_req = s.get("https://cool.ntu.edu.tw/login/saml",
-                              headers=headers)
-        form1 = bs4(pre_login_req.text, "html.parser").find("form")
         data1 = {}
+        if "@" in user:
+            login_url = "https://cool.ntu.edu.tw/login/canvas"
+        else:
+            login_url = "https://cool.ntu.edu.tw/login/saml"
+        # Finish setting up
+
+        # Check the identity
+        pre_login_req = s.get(login_url, headers=headers)
+        form1 = bs4(pre_login_req.text, "html.parser").find("form")
         for inp in form1.find_all("input"):
             data1[inp.get("name")] = inp.get("value") or ""
-        data1["ctl00$ContentPlaceHolder1$UsernameTextBox"] \
-            = user
-        data1["ctl00$ContentPlaceHolder1$PasswordTextBox"] \
-            = password
-        login_req = s.post("https://adfs.ntu.edu.tw/" + form1.get("action"),
-                           data=data1, allow_redirects=True, headers=headers)
+        if "@" in user:
+            data1["pseudonym_session[unique_id]"] = user
+            data1["pseudonym_session[password]"] = password
+            login_req = s.post(login_url, data=data1, allow_redirects=True,
+                               headers=headers)
+        else:
+            data1["ctl00$ContentPlaceHolder1$UsernameTextBox"] = user
+            data1["ctl00$ContentPlaceHolder1$PasswordTextBox"] = password
+            login_url_2 = "https://adfs.ntu.edu.tw/" + form1.get("action")
+            login_req = s.post(login_url_2, data=data1, allow_redirects=True,
+                               headers=headers)
         form2 = bs4(login_req.text, "html.parser").find("form")
         data2 = {}
         for inp in form2.find_all("input"):
