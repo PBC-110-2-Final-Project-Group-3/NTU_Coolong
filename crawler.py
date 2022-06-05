@@ -8,14 +8,18 @@ import datetime
 
 # Define classes
 class NTUCoolCrawler:
-    def _login(self, s, user, password):
+    def __init__(self, account, password):
+        self.account = account
+        self.password = password
+
+    def _login(self, s):
         # Set up
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67"
             " Safari/537.36"}
         data1 = {}
-        if "@" in user:
+        if "@" in account:
             login_url = "https://cool.ntu.edu.tw/login/canvas"
         else:
             login_url = "https://cool.ntu.edu.tw/login/saml"
@@ -26,14 +30,14 @@ class NTUCoolCrawler:
         form1 = bs4(pre_login_req.text, "html.parser").find("form")
         for inp in form1.find_all("input"):
             data1[inp.get("name")] = inp.get("value") or ""
-        if "@" in user:
-            data1["pseudonym_session[unique_id]"] = user
-            data1["pseudonym_session[password]"] = password
+        if "@" in account:
+            data1["pseudonym_session[unique_id]"] = self.account
+            data1["pseudonym_session[password]"] = self.password
             login_req = s.post(login_url, data=data1, allow_redirects=True,
                                headers=headers)
         else:
-            data1["ctl00$ContentPlaceHolder1$UsernameTextBox"] = user
-            data1["ctl00$ContentPlaceHolder1$PasswordTextBox"] = password
+            data1["ctl00$ContentPlaceHolder1$UsernameTextBox"] = self.account
+            data1["ctl00$ContentPlaceHolder1$PasswordTextBox"] = self.password
             login_url_2 = "https://adfs.ntu.edu.tw/" + form1.get("action")
             login_req = s.post(login_url_2, data=data1, allow_redirects=True,
                                headers=headers)
@@ -152,7 +156,7 @@ class NTUCoolCrawler:
         # Finish setting up
 
         with requests.Session() as s:
-            self._login(s, user, password)
+            self._login(s, account, password)
             courses = self._get_courses_id(s)
             for id in courses.keys():
                 course_name = courses[id]
@@ -197,13 +201,13 @@ class Quiz(Requirement):
 # Test code
 if __name__ == "__main__":
     # Set up
-    # The user and password should be obtained from config
-    user = ""  # Temporary
+    # The account and password should be obtained from config
+    account = ""  # Temporary
     password = ""  # Temporary
     # Finish setting up
 
     # Crawl!
-    crawler = NTUCoolCrawler()
+    crawler = NTUCoolCrawler(account, password)
     adict = crawler.get_assignments_or_quizzes("assignments")  # It crawls quizzes
     for key in adict.keys():
         print(key + ":")

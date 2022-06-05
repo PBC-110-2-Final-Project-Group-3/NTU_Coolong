@@ -12,13 +12,14 @@ import pygame
 from PIL import Image, ImageTk
 
 #要傳入的參數
-set_day = 2
+if __name__ == "__main__":
+    set_day = 2
 
-course = ['C/C++程式設計 C/C++ Programming',
-          '作業研究 Operations Research',
-          '應用線性代數 Applied Linear Algebra',
-          '應用線性代數II Applied Linear AlgebraII']
-assignment=[['Homework 1','Homework 2'],['Case Assignment 1'],['Final Exam'],['quiz1']]
+    course = ['C/C++程式設計 C/C++ Programming',
+            '作業研究 Operations Research',
+            '應用線性代數 Applied Linear Algebra',
+            '應用線性代數II Applied Linear AlgebraII']
+    assignment=[['Homework 1','Homework 2'],['Case Assignment 1'],['Final Exam'],['quiz1']]
 
 class notification(tk.Tk):
     
@@ -40,12 +41,12 @@ class notification(tk.Tk):
         self.resizable(width=0, height=0)
         self.createWindow()
         self.music()
-        self.iconbitmap('icon.ico')
+        self.iconbitmap('./notification/icon.ico')
     
     def music(self):
         pygame.mixer.init()
         pygame.mixer.music.set_volume(1.0)
-        pygame.mixer.music.load('bgm.mp3')
+        pygame.mixer.music.load('./notification/bgm.mp3')
         pygame.mixer.music.play(-1)
         
     def table(self):
@@ -86,7 +87,7 @@ class notification(tk.Tk):
         
     def image(self):
         bg_color = 'beige'  #背景顏色
-        image = Image.open("bomb.png")
+        image = Image.open("./notification/bomb.png")
         image = image.resize((100, 100), Image.ANTIALIAS)
         self.display = ImageTk.PhotoImage(image)
         labelbomb = tk.Label(self, image=self.display,bg=bg_color)
@@ -99,6 +100,7 @@ class notification(tk.Tk):
         
     def __del__(self):
         pygame.mixer.music.stop()   #停止音效
-            
-noti = notification(set_day,course,assignment)
-noti.mainloop()
+
+if __name__ == "__main__":            
+    noti = notification(set_day,course,assignment)
+    noti.mainloop()

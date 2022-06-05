@@ -50,6 +50,6 @@ class Setting(tk.Tk):
 		remindDays = self.Days.get()
 		#print(remindDays)
 
-
-Set = Setting()
-Set.mainloop()
+if __name__ == "__main__":
+	Set = Setting()
+	Set.mainloop()

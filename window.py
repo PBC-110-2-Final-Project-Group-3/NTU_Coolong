@@ -10,18 +10,19 @@
 希望整個視窗的高度可以隨課程數(n)變化
 
 '''
-# parameters(temporary)
+if __name__ == "__main__":
+    # parameters(temporary)
 
-n = 4
+    n = 4
 
-course = ['C/C++程式設計 C/C++ Programming',
-          '作業研究 Operations Research',
-          '應用線性代數 Applied Linear Algebra',
-          '應用線性代數II Applied Linear AlgebraII']
-course_n_assignment = {'C/C++程式設計 C/C++ Programming':['Homework 1','Homework 2'],
-          '作業研究 Operations Research':['Case Assignment 1'],
-          '應用線性代數 Applied Linear Algebra':['Final Exam'],
-          '應用線性代數II Applied Linear AlgebraII':['quiz1']}
+    course = ['C/C++程式設計 C/C++ Programming',
+            '作業研究 Operations Research',
+            '應用線性代數 Applied Linear Algebra',
+            '應用線性代數II Applied Linear AlgebraII']
+    course_n_assignment = {'C/C++程式設計 C/C++ Programming':['Homework 1','Homework 2'],
+            '作業研究 Operations Research':['Case Assignment 1'],
+            '應用線性代數 Applied Linear Algebra':['Final Exam'],
+            '應用線性代數II Applied Linear AlgebraII':['quiz1']}
 
 
 # input
@@ -37,13 +38,13 @@ course_n_assignment = {'C/C++程式設計 C/C++ Programming':['Homework 1','Home
     # course_n_assignment[course[i]] = assignment[i]
 # print(course_n_assignment)  # 到時id_n_classes可以被_get_course_id()取代掉
 
-
-dates = []
-for i in range(n):
-    dates.append(input("截止日期："))
-times = []
-for i in range(n):
-    times.append(input("截止時間："))
+if __name__ == "__main__":
+    dates = []
+    for i in range(n):
+        dates.append(input("截止日期："))
+    times = []
+    for i in range(n):
+        times.append(input("截止時間："))
     
 
 
@@ -103,6 +104,6 @@ class window(Tk):
         for i in range(n):
             set.insert(parent='',index='end',iid=i,text='',values=(course[i],course_n_assignment.get(course[i]),dates[i],times[i]))
 
-
-win = window(course, course_n_assignment, dates, times)
-win.mainloop()
+if __name__ == "__main__":
+    win = window(course, course_n_assignment, dates, times)
+    win.mainloop()
