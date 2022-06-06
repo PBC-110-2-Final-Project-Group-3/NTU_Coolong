@@ -165,7 +165,7 @@ class NTUCoolCrawler:
                 elif course_data_type in ("quizzes", 1):
                     data = self._get_quizzes(course_name, id, s)
                 if data != []:
-                    course_data.append(data)
+                    course_data += data
         return course_data
 
 
