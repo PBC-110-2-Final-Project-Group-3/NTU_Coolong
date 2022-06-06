@@ -51,5 +51,6 @@ def notification_count():
 
 if __name__ == "__main__":
     remind_day, assignments, quizzes = login_crawl()
-    notification_count()
+    # notification_count()
     # Finish deciding tasks
+    print(assignments)

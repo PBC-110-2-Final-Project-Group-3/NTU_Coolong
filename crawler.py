@@ -78,7 +78,7 @@ class NTUCoolCrawler:
         # Finish crawling id
         return courses
 
-    def _get_unsubmitted_assignments(self, cid, s):
+    def _get_unsubmitted_assignments(self, course, cid, s):
         """
         The parameters it takes is cid (course id) and s (context manager).
         It outputs a list containing Assignment objects.
@@ -101,13 +101,13 @@ class NTUCoolCrawler:
                 deadline = assi["due_at"]
                 if deadline is None:
                     continue
-                assi_object = Assignment(name, deadline)
+                assi_object = Assignment(course, name, deadline)
                 assignments.append(assi_object)
         # print(cid, ": ok!")
         # Finish crawling assignment
         return assignments
     
-    def _get_quizzes(self, cid, s):
+    def _get_quizzes(self, course, cid, s):
         """
         The parameters it takes is cid (course id) and s (context manager).
         It outputs a list containing Quiz objects.
@@ -129,7 +129,7 @@ class NTUCoolCrawler:
             deadline = quiz["due_at"]
             if deadline is None:
                 continue
-            quiz_object = Quiz(name, deadline)
+            quiz_object = Quiz(course, name, deadline)
             quizzes.append(quiz_object)
         # Finish crawling quizzes
         return quizzes
@@ -152,7 +152,7 @@ class NTUCoolCrawler:
              course_2: [quiz_3, quiz_4, ...], ...}
         """
         # Set up
-        course_data = {}
+        course_data = []
         # Finish setting up
 
         with requests.Session() as s:
@@ -161,23 +161,25 @@ class NTUCoolCrawler:
             for id in courses.keys():
                 course_name = courses[id]
                 if course_data_type in ("assignments", 0):
-                    data = self._get_unsubmitted_assignments(id, s)
+                    data = self._get_unsubmitted_assignments(course_name, id, s)
                 elif course_data_type in ("quizzes", 1):
-                    data = self._get_quizzes(id, s)
+                    data = self._get_quizzes(course_name, id, s)
                 if data != []:
-                    course_data[course_name] = data
+                    course_data.append(data)
         return course_data
 
 
 class Requirement:
-    def __init__(self, name, deadline):
+    def __init__(self, course, name, deadline):
+        self.course = course
         self.name = name
         self.deadline = self.datetime_handler(deadline)
 
     def __repr__(self):
+        course_str = "Course:" + str(self.course)
         name_str = "Name: " + str(self.name)
         dl_str = "Deadline: " + str(self.deadline)
-        output_str = name_str + " , " + dl_str
+        output_str = course_str + "," + name_str + " , " + dl_str
         return output_str
     
     def datetime_handler(self, deadline):
@@ -186,8 +188,7 @@ class Requirement:
         fmt = "%Y-%m-%dT%H:%M:%SZ"
         utc_8 = datetime.timedelta(hours=8)
         dl = datetime.datetime.strptime(deadline, fmt) + utc_8
-        datetime_list = [dl.date, dl.time]
-        return datetime_list
+        return dl
 
 
 class Assignment(Requirement):
