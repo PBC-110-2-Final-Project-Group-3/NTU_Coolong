@@ -19,7 +19,7 @@ class NTUCoolCrawler:
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67"
             " Safari/537.36"}
         data1 = {}
-        if "@" in account:
+        if "@" in self.account:
             login_url = "https://cool.ntu.edu.tw/login/canvas"
         else:
             login_url = "https://cool.ntu.edu.tw/login/saml"
@@ -30,7 +30,7 @@ class NTUCoolCrawler:
         form1 = bs4(pre_login_req.text, "html.parser").find("form")
         for inp in form1.find_all("input"):
             data1[inp.get("name")] = inp.get("value") or ""
-        if "@" in account:
+        if "@" in self.account:
             data1["pseudonym_session[unique_id]"] = self.account
             data1["pseudonym_session[password]"] = self.password
             login_req = s.post(login_url, data=data1, allow_redirects=True,
@@ -156,7 +156,7 @@ class NTUCoolCrawler:
         # Finish setting up
 
         with requests.Session() as s:
-            self._login(s, account, password)
+            self._login(s)
             courses = self._get_courses_id(s)
             for id in courses.keys():
                 course_name = courses[id]

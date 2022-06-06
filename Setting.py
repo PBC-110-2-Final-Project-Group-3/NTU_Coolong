@@ -49,6 +49,7 @@ class Setting(tk.Tk):
 			yaml.dump(d, f)
 		remindDays = self.Days.get()
 		#print(remindDays)
+		self.quit()
 
 if __name__ == "__main__":
 	Set = Setting()
