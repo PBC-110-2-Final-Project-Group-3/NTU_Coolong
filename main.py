@@ -50,6 +50,7 @@ def notification_count():
 
 
 if __name__ == "__main__":
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     remind_day, assignments, quizzes = login_crawl()
     # notification_count()
     # Finish deciding tasks
