@@ -27,7 +27,7 @@ if __name__ == "__main__":
                 remind_day = int(config["remindDay"])
         try:
             crawler = NTUCoolCrawler(account, password)
-            assiments = crawler.get_assignments_or_quizzes(0)
+            assignments = crawler.get_assignments_or_quizzes(0)
             quizzes = crawler.get_assignments_or_quizzes(1)
         except:
             setting = Setting()
@@ -35,3 +35,10 @@ if __name__ == "__main__":
         else:
             crawl_success = True
     # Finish crawling courses' data
+
+    # Decide which tasks to be notified
+    NotifCounter.remind_day = remind_day
+    for course in assignments.keys():
+        for task in assignments[course]:
+            n = NotifCounter(course, task.name, task.deadline)
+    # Finish deciding tasks

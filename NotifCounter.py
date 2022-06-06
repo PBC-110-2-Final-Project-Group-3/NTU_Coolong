@@ -3,6 +3,7 @@
 import datetime
 
 class NotifCounter:
+    remind_day = 3
 
     def __init__(self, course, task, deadline):  # Should be obtained from crawler
         self.course = course
@@ -18,7 +19,7 @@ class NotifCounter:
 
     def notif_or_not(self):
         notif_dict = dict()
-        notif_range = datetime.timedelta(days=3)  # Should be obtained from Setting
+        notif_range = datetime.timedelta(days=NotifCounter.remind_day)  # Should be obtained from Setting
 
         deadline = datetime.datetime.strptime(self.deadline, "%Y-%m-%dT%H:%M:%SZ") # Should be consistent with the datatype from crawler
         if deadline - self.cur_datetime() <= notif_range:
