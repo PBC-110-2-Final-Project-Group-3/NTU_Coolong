@@ -11,7 +11,9 @@ from window import window
 from notification.notifi import notification
 # Finish importing classes
 
-if __name__ == "__main__":
+
+# Define functions
+def login_crawl():
     # Set up
     crawl_success = False
     # Finish setting up
@@ -35,10 +37,19 @@ if __name__ == "__main__":
         else:
             crawl_success = True
     # Finish crawling courses' data
+    return remind_day, assignments, quizzes
 
+
+def notification_count():
     # Decide which tasks to be notified
     NotifCounter.remind_day = remind_day
     for course in assignments.keys():
         for task in assignments[course]:
             n = NotifCounter(course, task.name, task.deadline)
+# Finish defining funcition
+
+
+if __name__ == "__main__":
+    remind_day, assignments, quizzes = login_crawl()
+    notification_count()
     # Finish deciding tasks
