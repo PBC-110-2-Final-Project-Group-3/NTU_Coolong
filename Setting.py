@@ -26,7 +26,7 @@ class Setting(tk.Tk):
 		self.Days.insert(0,'3') # 預設3天前提醒
 		self.remindDaysLabel2 = tk.Label(self, text="天提醒我", bg='beige')
 		self.loginBtn = tk.Button(self, text="登入", width=10, highlightbackground='beige',fg='darkseagreen', command=lambda:[self.save()])
-		
+		self.leaveBtn = tk.Button(self, text='離開',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.quit()])
 
 	def arrange(self):
 		self.userLabel.grid(row=1, column=1, sticky='E')
@@ -37,7 +37,7 @@ class Setting(tk.Tk):
 		self.Days.grid(row=3, column=2, sticky='W'+'E')
 		self.remindDaysLabel2.grid(row=3, column=3, sticky='W')
 		self.loginBtn.grid(row=5, column=6,sticky="S")
-		
+		self.leaveBtn.grid(row=5, column=5)
 
 	def save(self): # 儲存帳號密碼、倒數幾天
 		d = {}
