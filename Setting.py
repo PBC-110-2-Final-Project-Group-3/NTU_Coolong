@@ -26,7 +26,7 @@ class Setting(tk.Tk):
 		self.Days.insert(0,'3') # 預設3天前提醒
 		self.remindDaysLabel2 = tk.Label(self, text="天提醒我", bg='beige')
 		self.loginBtn = tk.Button(self, text="登入", width=10, highlightbackground='beige',fg='darkseagreen', command=lambda:[self.save()])
-		self.leaveBtn = tk.Button(self, text='離開',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.destroy()])
+		self.leaveBtn = tk.Button(self, text='離開',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.destroy(),self.leave()])
 
 	def arrange(self):
 		self.userLabel.grid(row=1, column=1, sticky='E')
@@ -50,6 +50,9 @@ class Setting(tk.Tk):
 		remindDays = self.Days.get()
 		#print(remindDays)
 		self.destroy()
+
+	def leave(self):
+		self.exit = True
 
 if __name__ == "__main__":
 	Set = Setting()
