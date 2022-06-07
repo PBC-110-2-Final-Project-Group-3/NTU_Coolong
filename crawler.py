@@ -140,16 +140,13 @@ class NTUCoolCrawler:
         the objective is assignment(0) or quiz(1).
         It outputs every unsubmitted assignments or upcoming quizzes.
 
-        The output is a dictionary.
-        The keys are courses' name, and the values are assignment
-        or quiz object.
+        The output is a list which contains several objects.
+        Each object has 3 attributes: course, name, and deadline. 
 
         Example 1:
-            {course_1: [assignment_1, assignment_2, ...],
-             course_2: [assignment_3, assignment_4, ...], ...}
+            [assignment_1, assignment_2, ...]
         Example 2:
-            {course_1: [quiz_1, quiz_2, ...],
-             course_2: [quiz_3, quiz_4, ...], ...}
+            [quiz_1, quiz_2, ...]
         """
         # Set up
         course_data = []
@@ -209,10 +206,9 @@ if __name__ == "__main__":
 
     # Crawl!
     crawler = NTUCoolCrawler(account, password)
-    adict = crawler.get_assignments_or_quizzes("assignments")  # It crawls quizzes
-    for key in adict.keys():
-        print(key + ":")
-        print(adict[key], "\n===========")
-    print("=======================\nFinish!\n=======================")
+    assignments = crawler.get_assignments_or_quizzes("assignments")  # It crawls assignments
+    for i in assignments:
+        print(i, end="\n===========\n")
+    print("===========\nFinish!\n===========")
     # Finish crawling
 # Finish testing code
