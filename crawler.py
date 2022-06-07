@@ -200,8 +200,8 @@ class Quiz(Requirement):
 if __name__ == "__main__":
     # Set up
     # The account and password should be obtained from config
-    account = "b09207052"  # Temporary
-    password = "Chaeyoung0423"  # Temporary
+    account = ""  # Temporary
+    password = ""  # Temporary
     # Finish setting up
 
     # Crawl!
