@@ -1,6 +1,7 @@
 # Import libraries
 import os
 import yaml
+import datetime
 # Finish importing libraries
 
 # Import classes
@@ -54,6 +55,16 @@ if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     remind_day, assignments, quizzes = login_crawl()
     n_assi, n_quiz = notification_count(assignments, quizzes)
-    print(n_assi)
+
+    # Set up
+    update_time = datetime.datetime.now()
+    while True:
+        now = datetime.datetime.now()
+        if now - update_time >= datetime.timedelta(hours=1):
+            remind_day, assignments, quizzes = login_crawl()
+            n_assi, n_quiz = notification_count(assignments, quizzes)
+            update_time = now
+
+    # print(n_assi)
     # Finish deciding tasks
     # print(assignments)
