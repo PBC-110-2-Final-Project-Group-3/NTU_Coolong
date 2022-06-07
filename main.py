@@ -34,6 +34,8 @@ def login_crawl():
         except:
             setting = Setting()
             setting.mainloop()
+            if setting.exit:
+                raise RuntimeError("Exit the login window!")
         else:
             crawl_success = True
     # Finish crawling courses' data
