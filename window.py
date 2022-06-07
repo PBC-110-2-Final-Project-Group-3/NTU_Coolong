@@ -15,11 +15,12 @@ if __name__ == "__main__":
             }
     course_n_quizz = {'應用線性代數 Applied Linear Algebra':['Final Exam'],
             '應用線性代數II Applied Linear AlgebraII':['quiz1']}
+    '''
     assignment = ['C/C++程式設計 C/C++ Programming,Homework 1,2021-10-13 17:30:00','C/C++程式設計 C/C++ Programming,Homework 2,2021-11-10 17:30:00',
     '作業研究 Operations Research,Case Assignment 1,2021-12-08 17:30:00']
     quiz = ['應用線性代數 Applied Linear Algebra,Final Exam, 2022-01-01 22:00:00',
             '應用線性代數II Applied Linear AlgebraII,quiz1,2022-02-21 23:59:59']
-    '''
+    
     
     # temporary deadline
     deadline = datetime.datetime(2022, 6, 19, 23, 59, 59)
@@ -99,5 +100,5 @@ class window(Tk):
             set.insert(parent='',index='end',text='',values=(" ",quizzes[j][0],quizzes[j][1],dates,times))
 
 if __name__ == "__main__":
-    win = window(category, course, course_n_assignment, dates, times)
+    win = window(category, assignment, quiz, dates, times)
     win.mainloop()
