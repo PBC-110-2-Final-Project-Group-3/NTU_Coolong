@@ -42,18 +42,18 @@ def login_crawl():
     return remind_day, assignments, quizzes
 
 
-def notification_count():
+def notification_count(assignments, quizzes):
     # Decide which tasks to be notified
-    NotifCounter.remind_day = remind_day
-    for course in assignments.keys():
-        for task in assignments[course]:
-            n = NotifCounter(course, task.name, task.deadline)
+    counter_1 = NotifCounter(assignments, remind_day)
+    counter_2 = NotifCounter(quizzes, remind_day)
+    return counter_1.notif_or_not(), counter_2.notif_or_not()
 # Finish defining funcition
 
 
 if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     remind_day, assignments, quizzes = login_crawl()
-    # notification_count()
+    n_assi, n_quiz = notification_count(assignments, quizzes)
+    print(n_assi)
     # Finish deciding tasks
-    print(assignments)
+    # print(assignments)

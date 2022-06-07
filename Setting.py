@@ -15,6 +15,7 @@ class Setting(tk.Tk):
 		self.createWidgets()
 		self.arrange()
 		self.configure(bg='beige')
+		self.exit = False
 
 	def createWidgets(self):
 		self.userLabel = tk.Label(self, text="請輸入帳號：", bg='beige')
