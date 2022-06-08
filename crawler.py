@@ -93,17 +93,21 @@ class NTUCoolCrawler:
 
         # Crawl assignment by class id
         r = s.get(url)
-        # print(r.text)
         dt = json.loads(r.text)
         for assi in dt:
             if not assi["has_submitted_submissions"]:
                 name = assi["name"]
-                deadline = assi["due_at"]
-                if deadline is None:
-                    continue
+                due_at = assi["due_at"]
+                lock_at = assi["lock_at"]
+                if due_at is None:
+                    if lock_at is None:
+                        continue
+                    else:
+                        deadline = lock_at
+                else:
+                    deadline = due_at
                 assi_object = Assignment(course, name, deadline)
                 assignments.append(assi_object)
-        # print(cid, ": ok!")
         # Finish crawling assignment
         return assignments
     
