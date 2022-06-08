@@ -1,92 +1,54 @@
-from tkinter import *
-from  tkinter import ttk
-
-# if __name__ == "__main__":
-
-
-   
-    
-
-
-
-# settings
-class window(Tk):
-    category = 2
-    
-    def __init__(self, assignments, quizzes):
-        
-        Tk.__init__(self)
-        self.assignments = assignments
-        self.quizzes = quizzes
-        self.title('DeadLines')
-        self.list()
-        self.exit = False
-
-        
-    # root.title('DeadLines')
-
-    def list(self):    
-        # add style
-        style = ttk.Style(self)
-        style.theme_use("clam")
-        style.configure("Treeview.Heading", background="beige")
-        style.map('Treeview', background=[('selected','darkseagreen')])
-        # root = tk.Tk()
-
-
-        set = ttk.Treeview(self)
-        set.pack(fill='x')
-
-
-
-        set['columns']= ('category','course','name','deadline')
-        set.column("#0", width=0, stretch=NO)
-        set.column("category",anchor=CENTER, width=60)
-        set.column("course",anchor=W)
-        set.column("name",anchor=W)
-        set.column("deadline",anchor=CENTER, width=100)
-        
-
-        # header
-        set.heading("#0",text="",anchor=CENTER)
-        set.heading("category",text="Category",anchor=CENTER)
-        set.heading("course",text="Course",anchor=CENTER)
-        set.heading("name",text="Content",anchor=CENTER)
-        set.heading("deadline",text="DeadLine",anchor=CENTER)
-        
-
-
-        # output
-        '''
-        get_assignments_or_quizzes("assignments")、get_assignments_or_quizzes("quizzes") are lists
-        get_assignments_or_quizzes("assignments") = [assignment_1, assignment_2, ...]
-        get_assignments_or_quizzes("quizzes") = [quiz_1, quiz_2, ...]
-        
-        course of assignment_1 --> assignment_1.course
-        name of assignment_1 --> assignment_1.name
-        deadline of assignment_1 --> assignment_1.deadline
-        
-        '''
-
-        
-        set.insert(parent='',index='end',text='',values=("作業"))
-        if self.assignments == []:
-            set.insert(parent='',index='end',text='',values=(" "," ","沒有未繳交的作業"))
-        else:
-            for i in range(len(self.assignments)):
-                set.insert(parent='',index='end',iid=i,text='',values=(" ",self.assignments[i].course,self.assignments[i].name,self.assignments[i].deadline))
-        set.insert(parent='',index='end',text='',values=("考試"))
-        if self.quizzes == []:
-            set.insert(parent='',index='end',text='',values=(" "," ","沒有即將來臨的考試"))
-        else:
-            for j in range(len(self.quizzes)):
-                set.insert(parent='',index='end',text='',values=(" ",self.quizzes[j].course,self.quizzes[j].name,self.quizzes[j].deadline))
-        
-    def createWidgets(self):    
-        self.leaveBtn = tk.Button(self, text='Refresh',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.destroy(),self.leave()])
-    def leave(self):    
-        self.exit = True   
-
+import tkinter as tk
+from tkinter import messagebox
+import yaml
+import os
+'''這個檔案是「首次登入」介面，按登入button之後會把使用者輸入的帳號密碼存在一個叫Config.yaml的檔案裡'''
+class Setting(tk.Tk):
+   def __init__(self, *args, **kwargs):
+		tk.Tk.__init__(self, *args, **kwargs)
+		self.title('NTU COOLONG LOGIN')
+		self.geometry('380x130+550+300')
+		self.resizable(width=0, height=0)
+		self.grid()
+		self.createWidgets()
+		self.arrange()
+		self.configure(bg='beige')
+		self.exit = False
+    def createWidgets(self):
+		self.userLabel = tk.Label(self, text="請輸入帳號：", bg='beige')
+		self.passwordLabel = tk.Label(self, text="請輸入密碼：", bg='beige')
+		self.userEntry = tk.Entry(self,highlightbackground='beige',bg='beige')
+		self.passwordEntry = tk.Entry(self, show='*',highlightbackground='beige',bg='beige')
+		self.remindDaysLabel = tk.Label(self, text="在作業截止前", bg='beige')
+		self.Days = tk.Entry(self, width=3,highlightbackground='beige',bg='beige',justify='center')
+		self.Days.insert(0,'3') # 預設3天前提醒
+		self.remindDaysLabel2 = tk.Label(self, text="天提醒我", bg='beige')
+		self.loginBtn = tk.Button(self, text="登入", width=10, highlightbackground='beige',fg='darkseagreen', command=lambda:[self.save()])
+		self.leaveBtn = tk.Button(self, text='離開',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.destroy(),self.leave()])
+    def arrange(self):
+		self.userLabel.grid(row=1, column=1, sticky='E')
+		self.passwordLabel.grid(row=2, column=1, sticky='E')
+		self.userEntry.grid(row=1, column=2, sticky='W', columnspan=4)
+		self.passwordEntry.grid(row=2, column=2, sticky='W', columnspan=4)
+		self.remindDaysLabel.grid(row=3, column=1,sticky='E')
+		self.Days.grid(row=3, column=2, sticky='W'+'E')
+		self.remindDaysLabel2.grid(row=3, column=3, sticky='W')
+		self.loginBtn.grid(row=5, column=3,rowspan=2,sticky='N')
+		self.leaveBtn.grid(row=5, column=2,rowspan=2,sticky='N')
+		self.grid_rowconfigure(4, minsize=13)
+    def save(self): # 儲存帳號密碼、倒數幾天
+		d = {}
+		d['account'] = self.userEntry.get()
+		d['password'] = self.passwordEntry.get()
+		d['remindDay'] = self.Days.get()
+		path = os.path.join('Users', 'pengchihyi', 'Desktop','PBC', 'NTU_Coolong')
+    def leave(self):
+		self.exit = True
 if __name__ == "__main__":
-    win = window(category, course, name, deadline)
-    win.mainloop()
+	Set = Setting()
+	Set.mainloop()
+		with open('Config.yaml', 'w') as f:
+			yaml.dump(d, f)
+		remindDays = self.Days.get()
+		#print(remindDays)
+		self.destroy()
