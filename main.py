@@ -63,7 +63,7 @@ def notification_count(assignments, quizzes):
     # Decide which tasks to be notified
     counter_1 = NotifCounter(assignments, remind_day)
     counter_2 = NotifCounter(quizzes, remind_day)
-    return counter_1.notif_or_not(), counter_2.notif_or_not()
+    return counter_1.notif_or_not() + counter_2.notif_or_not()
 # Finish defining funcition
 
 
@@ -74,33 +74,29 @@ if __name__ == "__main__":
     # Finish crawling data
 
     # To see the deadline is within "remind_day"
-    n_assi, n_quiz = notification_count(assignments, quizzes)
+    n_assi_quiz = notification_count(assignments, quizzes)
 
     # Set up
     update_time = datetime.datetime.now()
-    ori_assignments = ori_quizzes = ori_n_assi = ori_n_quiz = None
+    ori_assignments = ori_quizzes = ori_n_assi_quiz = None
+    win_refresh = False
+    # Finish setting up
+
     while True:
         # Crawl data hourly
         now = datetime.datetime.now()
         if now - update_time >= datetime.timedelta(hours=1):
             remind_day, assignments, quizzes = login_crawl()
-            n_assi, n_quiz = notification_count(assignments, quizzes)
+            n_assi_quiz = notification_count(assignments, quizzes)
             update_time = now
         # Finish crawling data hourly
 
         # Notification window
-        if ori_n_assi != n_assi:
-            ori_n_assi = n_assi
-            if len(ori_n_assi) > 0:
-                noti_assi = notification(remind_day, ori_n_assi)
+        if ori_n_assi_quiz != n_assi_quiz:
+            ori_n_assi_quiz = n_assi_quiz
+            if len(ori_n_assi_quiz) > 0:
+                noti_assi = notification(remind_day, ori_n_assi_quiz)
                 noti_assi.mainloop()
-
-        if ori_n_quiz != n_quiz:
-            ori_n_quiz = n_quiz
-            if len(ori_n_quiz) > 0:
-                noti_assi = notification(remind_day, ori_n_quiz)
-                noti_assi.mainloop()
-
         # Finish notification window
 
         # All the assignments and quizzes
@@ -109,5 +105,4 @@ if __name__ == "__main__":
             ori_quizzes = quizzes
             win = window(ori_assignments, ori_quizzes)
             win.mainloop()
-
         # Finish the whole assignments and quizzes
