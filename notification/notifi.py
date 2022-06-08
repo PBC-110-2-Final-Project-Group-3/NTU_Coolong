@@ -41,9 +41,9 @@ class notification(tk.Tk):
         treeheight = len(self.lis)+2
         columns=("Course","Assignment","Deadline")
         tree=ttk.Treeview(self,height=treeheight,show="headings",columns=columns)
-        tree.column("Course",width=200,anchor='w')   #表示列,不顯示
-        tree.column("Assignment",width=200,anchor='w')
-        tree.column("Deadline",width=200,anchor='center')
+        tree.column("Course",width=190,anchor='w')   #表示列,不顯示
+        tree.column("Assignment",width=190,anchor='w')
+        tree.column("Deadline",width=170,anchor='center')
         tree.heading("Course",text="Class")  #顯示表頭
         tree.heading("Assignment",text="Content")
         tree.heading("Deadline",text="Deadline")
