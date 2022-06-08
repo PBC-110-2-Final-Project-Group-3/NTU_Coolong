@@ -1,4 +1,3 @@
-import datetime
 from tkinter import *
 from  tkinter import ttk
 
@@ -6,20 +5,19 @@ from  tkinter import ttk
 
 
    
-category = 2    
+    
 
 
 
 # settings
 class window(Tk):
-
-    def __init__(self, category, course, name, deadline):
+    category = 2
+    
+    def __init__(self, assignments, quizzes, course, name, deadline):
         
         Tk.__init__(self)
-        self.category = category
-        self.course = course
-        self.name = name
-        self.deadline = deadline
+        self.assignments = assignments
+        self.quizzes = quizzes
         self.title('DeadLines')
         self.list()
 
@@ -71,11 +69,11 @@ class window(Tk):
 
         
         set.insert(parent='',index='end',text='',values=("作業"))
-        for i in range(len(get_assignments_or_quizzes("assignments"))):
-            set.insert(parent='',index='end',iid=i,text='',values=(" ",get_assignments_or_quizzes("assignments")[i].course,get_assignments_or_quizzes("assignments")[i].name, get_assignments_or_quizzes("assignments")[i].deadline))
+        for i in range(len(assignments)):
+            set.insert(parent='',index='end',iid=i,text='',values=(" ",assignments[i].course,assignments[i].name,assignments[i].deadline))
         set.insert(parent='',index='end',text='',values=("考試"))
-        for j in range(len(get_assignments_or_quizzes("quizzes"))):
-            set.insert(parent='',index='end',text='',values=(" ",get_assignments_or_quizzes("quizzes")[j].course,get_assignments_or_quizzes("quizzes")[j].name,get_assignments_or_quizzes("quizzes")[j].deadline))
+        for j in range(len(quizzes)):
+            set.insert(parent='',index='end',text='',values=(" ",quizzes[j].course,quizzes[j].name,quizzes[j].deadline))
 
 if __name__ == "__main__":
     win = window(category, course, name, deadline)
