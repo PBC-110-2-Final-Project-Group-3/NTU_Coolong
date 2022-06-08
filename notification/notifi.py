@@ -58,7 +58,7 @@ class notification(tk.Tk):
         style.map("Treeview",
                   background=[('selected','darkseagreen')])
         index = 0
-        for i in range(len(lis)):
+        for i in range(len(self.lis)):
             tree.insert('',index,values=(self.lis[i].course,self.lis[i].name,self.lis[i].deadline))
             index+=1
                 
