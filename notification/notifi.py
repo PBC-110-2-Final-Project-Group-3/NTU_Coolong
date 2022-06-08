@@ -21,31 +21,33 @@ class notification(tk.Tk):
         self.lis = lis
         
         num_assignment = len(lis)
-        windowheight = max(num_assignment*65,150)
+        windowheight = max(num_assignment*65,165)
         
         self.title('NTU COOLONG ALARM')
-        self.geometry('600x%d+400+250' % (windowheight))
+        self.geometry('700x%d+400+250' % (windowheight))
         self.resizable(width=0, height=0)
         self.music()
-        self.iconbitmap('./notification/icon.ico')
+        self.iconbitmap('icon.ico')
         self.createWindow()
         
     def music(self):
         pygame.mixer.init()
         pygame.mixer.music.set_volume(1.0)
-        pygame.mixer.music.load('./notification/bgm.mp3')
+        pygame.mixer.music.load('bgm.mp3')
         pygame.mixer.music.play(0)
         
     def table(self):
         bg_color = 'beige'
-        treeheight = len(self.lis)+2
-        columns=("Course","Assignment")
+        treeheight = len(lis)+2
+        columns=("Course","Assignment","Deadline")
         tree=ttk.Treeview(self,height=treeheight,show="headings",columns=columns)
-        tree.column("Course",width=200,anchor='center')   #表示列,不顯示
-        tree.column("Assignment",width=250,anchor='center')
-        tree.heading("Course",text="課程名稱")  #顯示表頭
-        tree.heading("Assignment",text="作業")
-        tree.place(relx=0.42,rely=0.48,anchor='center')
+        tree.column("Course",width=150,anchor='center')   #表示列,不顯示
+        tree.column("Assignment",width=200,anchor='center')
+        tree.column("Deadline",width=150,anchor='center')
+        tree.heading("Course",text="Class")  #顯示表頭
+        tree.heading("Assignment",text="Content")
+        tree.heading("Deadline",text="Deadline")
+        tree.place(relx=0.42,rely=0.42,anchor='center')
         style = ttk.Style()
 
         #表格顏色
@@ -56,15 +58,15 @@ class notification(tk.Tk):
         style.map("Treeview",
                   background=[('selected','darkseagreen')])
         index = 0
-        for i in range(len(self.lis)):
-            tree.insert('',index,values=(self.lis[i].course,self.lis[i].name))
+        for i in range(len(lis)):
+            tree.insert('',index,values=(self.lis[i].course,self.lis[i].name,self.lis[i].deadline))
             index+=1
                 
     def msg(self):
         bg_color = 'beige'
         fontStyle = tkFont.Font(family="微軟正黑體", size=10, weight='bold')
         labelmsg = tk.Label(self,                 # 文字標示所在視窗
-                         text = '再'+str(self.day)+'天就要交作業囉！加油！！',
+                         text = '快要考試/交作業囉！加油！！',
                          font=fontStyle,fg='crimson',
                          bg=bg_color)  # 顯示文字
         labelmsg.place(relx=0.42,rely=0.90,anchor='center')
@@ -72,21 +74,21 @@ class notification(tk.Tk):
         
     def image(self):
         bg_color = 'beige'  #背景顏色
-        image = Image.open("./notification/bomb.png")
+        image = Image.open("bomb.png")
         image = image.resize((100, 100), Image.ANTIALIAS)
         self.display = ImageTk.PhotoImage(image)
         labelbomb = tk.Label(self, image=self.display,bg=bg_color)
-        labelbomb.place(relx=0.52,rely=0.48,anchor='center',x=230,y=0)
+        labelbomb.place(relx=0.9,rely=0.42,anchor='center')
 
+    def button(self):
+        leaveBtn = tk.Button(self, text='離開',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.destroy(),self.leave()])
+        leaveBtn.place(relx=0.9,rely=0.88,anchor='center')
+        
     def createWindow(self):
         self.msg()
         self.table()
         self.image()
         self.button()
-        
-    def button(self):
-        leaveBtn = tk.Button(self, text='離開',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.destroy(),self.leave()])
-        leaveBtn.place(relx=0.9,rely=0.88,anchor='center')   
         
     def __del__(self):
         pygame.mixer.music.stop()   #停止音效
@@ -106,4 +108,5 @@ if __name__ == "__main__":
     set_day = 2
     lis = [a1,a2,a3]
     noti = notification(set_day,lis)
+    #noti.after(30000, lambda: noti.destroy())
     noti.mainloop()
