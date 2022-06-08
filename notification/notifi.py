@@ -18,6 +18,7 @@ class notification(tk.Tk):
 
         tk.Tk.__init__(self)
         self.day = day
+        self.lis = lis
         
         num_assignment = len(lis)
         windowheight = max(num_assignment*65,150)
@@ -37,7 +38,7 @@ class notification(tk.Tk):
         
     def table(self):
         bg_color = 'beige'
-        treeheight = len(lis)+2
+        treeheight = len(self.lis)+2
         columns=("Course","Assignment")
         tree=ttk.Treeview(self,height=treeheight,show="headings",columns=columns)
         tree.column("Course",width=200,anchor='center')   #表示列,不顯示
@@ -55,8 +56,8 @@ class notification(tk.Tk):
         style.map("Treeview",
                   background=[('selected','darkseagreen')])
         index = 0
-        for i in range(len(lis)):
-            tree.insert('',index,values=(lis[i].course,lis[i].name))
+        for i in range(len(self.lis)):
+            tree.insert('',index,values=(self.lis[i].course,self.lis[i].name))
             index+=1
                 
     def msg(self):

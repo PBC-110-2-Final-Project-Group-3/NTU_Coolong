@@ -55,6 +55,7 @@ if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     remind_day, assignments, quizzes = login_crawl()
     n_assi, n_quiz = notification_count(assignments, quizzes)
+    print(n_assi)
 
     # Set up
     update_time = datetime.datetime.now()
@@ -64,6 +65,20 @@ if __name__ == "__main__":
             remind_day, assignments, quizzes = login_crawl()
             n_assi, n_quiz = notification_count(assignments, quizzes)
             update_time = now
+        # win = window()
+        if len(n_assi) > 0:
+            print(f"Number of assignments: {len(n_assi)}")
+            noti_assi = notification(remind_day, n_assi)
+            noti_assi.mainloop()
+        else:
+            print("No assignments!")
+
+        if len(n_quiz) > 0:
+            print(f"Number of quizzes: {len(n_quiz)}")
+            noti_quiz = notification(remind_day, n_quiz)
+            noti_quiz.mainloop()
+        else:
+            print("No quizzes!")
 
     # print(n_assi)
     # Finish deciding tasks
