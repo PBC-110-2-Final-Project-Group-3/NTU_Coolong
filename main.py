@@ -63,7 +63,8 @@ def notification_count(assignments, quizzes):
     # Decide which tasks to be notified
     counter_1 = NotifCounter(assignments, remind_day)
     counter_2 = NotifCounter(quizzes, remind_day)
-    return counter_1.notif_or_not() + counter_2.notif_or_not()
+    all = counter_1.notif_or_not() + counter_2.notif_or_not()
+    return all
 # Finish defining funcition
 
 
@@ -79,8 +80,7 @@ if __name__ == "__main__":
     # Set up
     update_time = datetime.datetime.now()
     ori_assignments = ori_quizzes = ori_n_assi_quiz = None
-    win_refresh = False
-    win_first_time = True
+    win_refresh = True
     # Finish setting up
 
     while True:
@@ -96,22 +96,21 @@ if __name__ == "__main__":
         if ori_n_assi_quiz != n_assi_quiz:
             ori_n_assi_quiz = n_assi_quiz
             if len(ori_n_assi_quiz) > 0:
-                noti_assi = notification(remind_day, ori_n_assi_quiz)
-                noti_assi.mainloop()
+                noti = notification(remind_day, ori_n_assi_quiz)
+                noti.mainloop()
         # Finish notification window
 
         # All the assignments and quizzes
-        if win_first_time:
-            win_first_time = False
-            win = window(ori_assignments, ori_quizzes)
-            win.mainloop()
-        elif win_refresh:
+        if win_refresh:
             win_refresh = False
-            win = window(ori_assignments, ori_quizzes)
-            win.mainloop()
-        if (ori_assignments != assignments) or (ori_quizzes != quizzes):
             ori_assignments = assignments
             ori_quizzes = quizzes
             win = window(ori_assignments, ori_quizzes)
             win.mainloop()
+            # if win.refresh():
+                # win.destroy()
+                # win_refresh = True
+        else:
+            break
         # Finish the whole assignments and quizzes
+    print("Finish the program!")
