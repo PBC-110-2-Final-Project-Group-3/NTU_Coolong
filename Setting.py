@@ -47,8 +47,3 @@ class Setting(tk.Tk):
 if __name__ == "__main__":
 	Set = Setting()
 	Set.mainloop()
-		with open('Config.yaml', 'w') as f:
-			yaml.dump(d, f)
-		remindDays = self.Days.get()
-		#print(remindDays)
-		self.destroy()
