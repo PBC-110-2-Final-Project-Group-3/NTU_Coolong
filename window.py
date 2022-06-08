@@ -70,13 +70,13 @@ class window(Tk):
         
         set.insert(parent='',index='end',text='',values=("作業"))
         if self.assignments == []:
-            set.insert(parent='',index='end',text='',values=("","沒有未繳交的作業"))
+            set.insert(parent='',index='end',text='',values=(" "," ","沒有未繳交的作業"))
         else:
             for i in range(len(self.assignments)):
                 set.insert(parent='',index='end',iid=i,text='',values=(" ",self.assignments[i].course,self.assignments[i].name,self.assignments[i].deadline))
         set.insert(parent='',index='end',text='',values=("考試"))
         if self.quizzes == []:
-            set.insert(parent='',index='end',text='',values=(" ","沒有即將來臨的考試"))
+            set.insert(parent='',index='end',text='',values=(" "," ","沒有即將來臨的考試"))
         else:
             for j in range(len(self.quizzes)):
                 set.insert(parent='',index='end',text='',values=(" ",self.quizzes[j].course,self.quizzes[j].name,self.quizzes[j].deadline))
