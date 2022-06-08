@@ -2,7 +2,7 @@
 """
 Created on Thu May 26 12:09:24 2022
 
-@author: 
+@author: wenjie
 """
 
 import tkinter as tk
@@ -26,11 +26,8 @@ class notification(tk.Tk):
         self.geometry('600x%d+400+250' % (windowheight))
         self.resizable(width=0, height=0)
         self.music()
-        self.table()
-        self.msg()
-        self.image()
         self.iconbitmap('./notification/icon.ico')
-        #self.createWindow()
+        self.createWindow()
         
     def music(self):
         pygame.mixer.init()
