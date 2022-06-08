@@ -107,9 +107,9 @@ if __name__ == "__main__":
             ori_quizzes = quizzes
             win = window(ori_assignments, ori_quizzes)
             win.mainloop()
-            # if win.refresh():
-                # win.destroy()
-                # win_refresh = True
+            if win.exit:
+                win.destroy()
+                win_refresh = True
         else:
             break
         # Finish the whole assignments and quizzes
