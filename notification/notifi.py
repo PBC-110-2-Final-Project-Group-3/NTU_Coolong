@@ -38,7 +38,7 @@ class notification(tk.Tk):
         
     def table(self):
         bg_color = 'beige'
-        treeheight = len(lis)+2
+        treeheight = len(self.lis)+2
         columns=("Course","Assignment","Deadline")
         tree=ttk.Treeview(self,height=treeheight,show="headings",columns=columns)
         tree.column("Course",width=150,anchor='center')   #表示列,不顯示
