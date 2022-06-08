@@ -13,7 +13,8 @@ class NotifCounter:
         return_list = []
         notif_range = datetime.timedelta(days=self.remind_day)
         for one_assi in self.data_list:
-            if one_assi.deadline - datetime.datetime.now() <= notif_range:
+            time_shift = one_assi.deadline - datetime.datetime.now()
+            if datetime.timedelta(seconds=0) < time_shift <= notif_range:
                 return_list.append(one_assi)
         return return_list
 
