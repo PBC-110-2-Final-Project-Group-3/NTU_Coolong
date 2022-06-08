@@ -69,11 +69,11 @@ class window(Tk):
 
         
         set.insert(parent='',index='end',text='',values=("作業"))
-        for i in range(len(assignments)):
-            set.insert(parent='',index='end',iid=i,text='',values=(" ",assignments[i].course,assignments[i].name,assignments[i].deadline))
+        for i in range(len(self.assignments)):
+            set.insert(parent='',index='end',iid=i,text='',values=(" ",self.assignments[i].course,self.assignments[i].name,self.assignments[i].deadline))
         set.insert(parent='',index='end',text='',values=("考試"))
-        for j in range(len(quizzes)):
-            set.insert(parent='',index='end',text='',values=(" ",quizzes[j].course,quizzes[j].name,quizzes[j].deadline))
+        for j in range(len(self.quizzes)):
+            set.insert(parent='',index='end',text='',values=(" ",self.quizzes[j].course,self.quizzes[j].name,self.quizzes[j].deadline))
 
 if __name__ == "__main__":
     win = window(category, course, name, deadline)
