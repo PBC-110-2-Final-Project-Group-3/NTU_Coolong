@@ -69,11 +69,17 @@ class window(Tk):
 
         
         set.insert(parent='',index='end',text='',values=("作業"))
-        for i in range(len(self.assignments)):
-            set.insert(parent='',index='end',iid=i,text='',values=(" ",self.assignments[i].course,self.assignments[i].name,self.assignments[i].deadline))
+        if self.assignments == []:
+            set.insert(parent='',index='end',iid=i,text='',values=(" "," "," "," "))
+        else:
+            for i in range(len(self.assignments)):
+                set.insert(parent='',index='end',iid=i,text='',values=(" ",self.assignments[i].course,self.assignments[i].name,self.assignments[i].deadline))
         set.insert(parent='',index='end',text='',values=("考試"))
-        for j in range(len(self.quizzes)):
-            set.insert(parent='',index='end',text='',values=(" ",self.quizzes[j].course,self.quizzes[j].name,self.quizzes[j].deadline))
+        if self.quizzes == []:
+            set.insert(parent='',index='end',iid=i,text='',values=(" "," "," "," "))
+        else:
+            for j in range(len(self.quizzes)):
+                set.insert(parent='',index='end',text='',values=(" ",self.quizzes[j].course,self.quizzes[j].name,self.quizzes[j].deadline))
     
         self.leaveBtn = tk.Button(self, text='結束',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.destroy(),self.leave()])
         
