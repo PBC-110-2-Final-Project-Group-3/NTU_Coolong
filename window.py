@@ -19,7 +19,6 @@ class window(Tk):
         self.assignments = assignments
         self.quizzes = quizzes
         self.title('DeadLines')
-        self.exit = False
         self.list()
 
         
@@ -81,9 +80,7 @@ class window(Tk):
         else:
             for j in range(len(self.quizzes)):
                 set.insert(parent='',index='end',text='',values=(" ",self.quizzes[j].course,self.quizzes[j].name,self.quizzes[j].deadline))
-        self.leaveBtn = tk.Button(self, text='Refresh',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.destroy(),self.leave()])
-      def leave(self):
-	      self.exit = True
+		
 if __name__ == "__main__":
     win = window(category, course, name, deadline)
     win.mainloop()
