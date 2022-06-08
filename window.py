@@ -81,8 +81,11 @@ class window(Tk):
         else:
             for j in range(len(self.quizzes)):
                 set.insert(parent='',index='end',text='',values=(" ",self.quizzes[j].course,self.quizzes[j].name,self.quizzes[j].deadline))
+        
+    def createWidgets(self):    
         self.leaveBtn = tk.Button(self, text='Refresh',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.destroy(),self.leave()])
-	self.exit = True   
+    def leave(self):    
+        self.exit = True   
 
 if __name__ == "__main__":
     win = window(category, course, name, deadline)
