@@ -2,7 +2,7 @@
 """
 Created on Thu May 26 12:09:24 2022
 
-@author: wenjie
+@author: 
 """
 
 import tkinter as tk
@@ -11,47 +11,36 @@ import tkinter.font as tkFont
 import pygame
 from PIL import Image, ImageTk
 
-#要傳入的參數
-if __name__ == "__main__":
-    set_day = 2
-
-    course = ['C/C++程式設計 C/C++ Programming',
-            '作業研究 Operations Research',
-            '應用線性代數 Applied Linear Algebra',
-            '應用線性代數II Applied Linear AlgebraII']
-    assignment=[['Homework 1','Homework 2'],['Case Assignment 1'],['Final Exam'],['quiz1']]
 
 class notification(tk.Tk):
     
-    def __init__(self,day,course,assignment):
+    def __init__(self,day,lis):
 
         tk.Tk.__init__(self)
         self.day = day
-        self.course = course
-        self.assignment = assignment
         
-        num_assignment = 0
-        for i in range(len(self.course)):
-            for j in range(len(self.assignment[i])):
-                num_assignment+=1
-        windowheight = max(num_assignment*45,150)
+        num_assignment = len(lis)
+        windowheight = max(num_assignment*65,150)
         
-        self.title('NTU Coolong ALARM')
+        self.title('NTU COOLONG ALARM')
         self.geometry('600x%d+400+250' % (windowheight))
         self.resizable(width=0, height=0)
-        self.createWindow()
         self.music()
-        self.iconbitmap('./notification/icon.ico')
-    
+        self.table()
+        self.msg()
+        self.image()
+        self.iconbitmap('icon.ico')
+        #self.createWindow()
+        
     def music(self):
         pygame.mixer.init()
         pygame.mixer.music.set_volume(1.0)
-        pygame.mixer.music.load('./notification/bgm.mp3')
-        pygame.mixer.music.play(-1)
+        pygame.mixer.music.load('bgm.mp3')
+        pygame.mixer.music.play(0)
         
     def table(self):
         bg_color = 'beige'
-        treeheight = len(course)+2
+        treeheight = len(lis)+2
         columns=("Course","Assignment")
         tree=ttk.Treeview(self,height=treeheight,show="headings",columns=columns)
         tree.column("Course",width=200,anchor='center')   #表示列,不顯示
@@ -60,20 +49,18 @@ class notification(tk.Tk):
         tree.heading("Assignment",text="作業")
         tree.place(relx=0.42,rely=0.48,anchor='center')
         style = ttk.Style()
-        """
+
         #表格顏色
         style.theme_use('clam')
         style.configure("Treeview", background=bg_color, 
                              foreground="black", fieldbackground=bg_color)
-        """
         #表格內容
         style.map("Treeview",
                   background=[('selected','darkseagreen')])
         index = 0
-        for i in range(len(self.course)):
-            for j in range(len(self.assignment[i])):
-                tree.insert('',index,values=(self.course[i],self.assignment[i][j]))
-                index+=1
+        for i in range(len(lis)):
+            tree.insert('',index,values=(lis[i].course,lis[i].name))
+            index+=1
                 
     def msg(self):
         bg_color = 'beige'
@@ -87,7 +74,7 @@ class notification(tk.Tk):
         
     def image(self):
         bg_color = 'beige'  #背景顏色
-        image = Image.open("./notification/bomb.png")
+        image = Image.open("bomb.png")
         image = image.resize((100, 100), Image.ANTIALIAS)
         self.display = ImageTk.PhotoImage(image)
         labelbomb = tk.Label(self, image=self.display,bg=bg_color)
@@ -100,7 +87,20 @@ class notification(tk.Tk):
         
     def __del__(self):
         pygame.mixer.music.stop()   #停止音效
+            
+if __name__ == "__main__":
+    class assign:
+        
+        def __init__(self,course,name,deadline):
+            self.course = course
+            self.name = name
+            self.deadline = deadline
+        
+    a1 = assign('作業研究 Operations Research','Homework 1','2022-06-05')
+    a2 = assign('作業研究 Operations Research','Homework 2','2022-06-05')
+    a3 = assign('C/C++程式設計 C/C++ Programming','Case Assignment 1','2022-06-05')
 
-if __name__ == "__main__":            
-    noti = notification(set_day,course,assignment)
+    set_day = 2
+    lis = [a1,a2,a3]
+    noti = notification(set_day,lis)
     noti.mainloop()
