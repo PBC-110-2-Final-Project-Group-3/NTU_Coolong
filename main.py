@@ -43,6 +43,20 @@ def login_crawl():
     return remind_day, assignments, quizzes
 
 
+def deadline_checking(list_1):
+    # Set up
+    return_list = []
+    # Finish setting up
+
+    # Time checking
+    now = datetime.datetime.now()
+    for obj in list_1:
+        if obj.deadline > now:
+            return_list.append(obj)
+    # Finish time checking
+    return return_list
+
+
 def notification_count(assignments, quizzes):
     # Decide which tasks to be notified
     counter_1 = NotifCounter(assignments, remind_day)
@@ -52,20 +66,29 @@ def notification_count(assignments, quizzes):
 
 
 if __name__ == "__main__":
+    # Crawl data for the first time
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     remind_day, assignments, quizzes = login_crawl()
+    assignments = deadline_checking(assignments)
+    quizzes = deadline_checking(quizzes)
+    # Finish crawling data
+
+    # To see the deadline is within "remind_day"
     n_assi, n_quiz = notification_count(assignments, quizzes)
-    ori_n_assi = ori_n_quiz = None
 
     # Set up
     update_time = datetime.datetime.now()
+    ori_n_assi = ori_n_quiz = None
     while True:
+        # Crawl data hourly
         now = datetime.datetime.now()
         if now - update_time >= datetime.timedelta(hours=1):
             remind_day, assignments, quizzes = login_crawl()
             n_assi, n_quiz = notification_count(assignments, quizzes)
             update_time = now
-        # win = window()
+        # Finish crawling data hourly
+
+        # Notification window
         if ori_n_assi != n_assi:
             ori_n_assi = n_assi
             if len(ori_n_assi) > 0:
@@ -83,6 +106,9 @@ if __name__ == "__main__":
                 noti_quiz.mainloop()
             else:
                 print("No quizzes!")
+        # Finish notification window
+
+        # All the assignments and quizzes
 
     # print(n_assi)
     # Finish deciding tasks
