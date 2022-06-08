@@ -40,6 +40,8 @@ def login_crawl():
         else:
             crawl_success = True
     # Finish crawling courses' data
+    assignments = deadline_checking(assignments)
+    quizzes = deadline_checking(quizzes)
     return remind_day, assignments, quizzes
 
 
@@ -69,8 +71,6 @@ if __name__ == "__main__":
     # Crawl data for the first time
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     remind_day, assignments, quizzes = login_crawl()
-    assignments = deadline_checking(assignments)
-    quizzes = deadline_checking(quizzes)
     # Finish crawling data
 
     # To see the deadline is within "remind_day"
@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
     # Set up
     update_time = datetime.datetime.now()
-    ori_n_assi = ori_n_quiz = None
+    ori_assignments = ori_quizzes = ori_n_assi = ori_n_quiz = None
     while True:
         # Crawl data hourly
         now = datetime.datetime.now()
@@ -109,6 +109,11 @@ if __name__ == "__main__":
         # Finish notification window
 
         # All the assignments and quizzes
+        if (ori_assignments != assignments) or (ori_quizzes != quizzes):
+            ori_assignments = assignments
+            ori_quizzes = quizzes
+            win = window(ori_assignments, ori_quizzes)
+            win.mainloop()
 
     # print(n_assi)
     # Finish deciding tasks
