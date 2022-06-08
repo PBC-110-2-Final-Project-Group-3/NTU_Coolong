@@ -80,6 +80,7 @@ if __name__ == "__main__":
     update_time = datetime.datetime.now()
     ori_assignments = ori_quizzes = ori_n_assi_quiz = None
     win_refresh = False
+    win_first_time = True
     # Finish setting up
 
     while True:
@@ -100,6 +101,14 @@ if __name__ == "__main__":
         # Finish notification window
 
         # All the assignments and quizzes
+        if win_first_time:
+            win_first_time = False
+            win = window(ori_assignments, ori_quizzes)
+            win.mainloop()
+        elif win_refresh:
+            win_refresh = False
+            win = window(ori_assignments, ori_quizzes)
+            win.mainloop()
         if (ori_assignments != assignments) or (ori_quizzes != quizzes):
             ori_assignments = assignments
             ori_quizzes = quizzes
