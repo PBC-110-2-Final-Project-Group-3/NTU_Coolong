@@ -40,7 +40,7 @@ class window(Tk):
 
         set['columns']= ('category','course','name','deadline')
         set.column("#0", width=0, stretch=NO)
-        set.column("category",anchor=CENTER, width=70)
+        set.column("category",anchor=CENTER, width=50)
         set.column("course",anchor=W)
         set.column("name",anchor=W)
         set.column("deadline",anchor=CENTER, width=100)
@@ -74,7 +74,8 @@ class window(Tk):
         set.insert(parent='',index='end',text='',values=("考試"))
         for j in range(len(self.quizzes)):
             set.insert(parent='',index='end',text='',values=(" ",self.quizzes[j].course,self.quizzes[j].name,self.quizzes[j].deadline))
-            
+    
+        self.leaveBtn = tk.Button(self, text='結束',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.destroy(),self.leave()])
         
 
 if __name__ == "__main__":
