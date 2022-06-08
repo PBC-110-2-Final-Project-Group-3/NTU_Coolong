@@ -41,15 +41,15 @@ class window(Tk):
         set['columns']= ('category','course','name','deadline')
         set.column("#0", width=0, stretch=NO)
         set.column("category",anchor=CENTER, width=70)
-        set.column("course",anchor=CENTER)
-        set.column("name",anchor=CENTER)
+        set.column("course",anchor=W)
+        set.column("name",anchor=W)
         set.column("deadline",anchor=CENTER, width=100)
         
 
         # header
         set.heading("#0",text="",anchor=CENTER)
         set.heading("category",text="Category",anchor=CENTER)
-        set.heading("course",text="Class",anchor=CENTER)
+        set.heading("course",text="Course",anchor=CENTER)
         set.heading("name",text="Content",anchor=CENTER)
         set.heading("deadline",text="DeadLine",anchor=CENTER)
         
