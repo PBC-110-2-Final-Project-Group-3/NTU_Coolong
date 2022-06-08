@@ -21,7 +21,7 @@ class notification(tk.Tk):
         self.lis = lis
         
         num_assignment = len(self.lis)
-        windowheight = max(num_assignment*65,165)
+        windowheight = max(150+num_assignment*15,160)
         
         self.title('NTU COOLONG ALARM')
         self.geometry('700x%d+400+250' % (windowheight))
