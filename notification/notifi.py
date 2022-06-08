@@ -29,13 +29,13 @@ class notification(tk.Tk):
         self.table()
         self.msg()
         self.image()
-        self.iconbitmap('icon.ico')
+        self.iconbitmap('./notification/icon.ico')
         #self.createWindow()
         
     def music(self):
         pygame.mixer.init()
         pygame.mixer.music.set_volume(1.0)
-        pygame.mixer.music.load('bgm.mp3')
+        pygame.mixer.music.load('./notification/bgm.mp3')
         pygame.mixer.music.play(0)
         
     def table(self):
@@ -74,7 +74,7 @@ class notification(tk.Tk):
         
     def image(self):
         bg_color = 'beige'  #背景顏色
-        image = Image.open("bomb.png")
+        image = Image.open("./notification/bomb.png")
         image = image.resize((100, 100), Image.ANTIALIAS)
         self.display = ImageTk.PhotoImage(image)
         labelbomb = tk.Label(self, image=self.display,bg=bg_color)
