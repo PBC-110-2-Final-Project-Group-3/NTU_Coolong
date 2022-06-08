@@ -20,7 +20,7 @@ class notification(tk.Tk):
         self.day = day
         self.lis = lis
         
-        num_assignment = len(lis)
+        num_assignment = len(self.lis)
         windowheight = max(num_assignment*65,165)
         
         self.title('NTU COOLONG ALARM')
@@ -41,9 +41,9 @@ class notification(tk.Tk):
         treeheight = len(self.lis)+2
         columns=("Course","Assignment","Deadline")
         tree=ttk.Treeview(self,height=treeheight,show="headings",columns=columns)
-        tree.column("Course",width=150,anchor='center')   #表示列,不顯示
-        tree.column("Assignment",width=200,anchor='center')
-        tree.column("Deadline",width=150,anchor='center')
+        tree.column("Course",width=190,anchor='w')   #表示列,不顯示
+        tree.column("Assignment",width=190,anchor='w')
+        tree.column("Deadline",width=170,anchor='center')
         tree.heading("Course",text="Class")  #顯示表頭
         tree.heading("Assignment",text="Content")
         tree.heading("Deadline",text="Deadline")
