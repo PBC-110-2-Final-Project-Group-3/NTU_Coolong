@@ -13,7 +13,7 @@ from  tkinter import ttk
 class window(Tk):
     category = 2
     
-    def __init__(self, assignments, quizzes, course, name, deadline):
+    def __init__(self, assignments, quizzes):
         
         Tk.__init__(self)
         self.assignments = assignments
