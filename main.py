@@ -64,25 +64,6 @@ def notification_count(assignments, quizzes):
     counter_1 = NotifCounter(assignments, remind_day)
     counter_2 = NotifCounter(quizzes, remind_day)
     return counter_1.notif_or_not(), counter_2.notif_or_not()
-
-
-def update_notification_window(old, new):
-    if old != new:
-        old = new
-        if len(old) > 0:
-            print(f"Number of assignments: {len(old)}")
-            noti_assi = notification(remind_day, old)
-            noti_assi.mainloop()
-        else:
-            print("No assignments!")
-
-
-def update_window(old_1, old_2, new_1, new_2):
-    if (old_1 != new_1) or (old_2 != new_2):
-        old_1 = new_1
-        old_2 = new_2
-        win = window(old_1, old_2)
-        win.mainloop()
 # Finish defining funcition
 
 
@@ -108,14 +89,25 @@ if __name__ == "__main__":
         # Finish crawling data hourly
 
         # Notification window
-        update_notification_window(ori_n_assi, n_assi)
-        update_notification_window(ori_n_quiz, n_quiz)
+        if ori_n_assi != n_assi:
+            ori_n_assi = n_assi
+            if len(ori_n_assi) > 0:
+                noti_assi = notification(remind_day, ori_n_assi)
+                noti_assi.mainloop()
+
+        if ori_n_quiz != n_quiz:
+            ori_n_quiz = n_quiz
+            if len(ori_n_quiz) > 0:
+                noti_assi = notification(remind_day, ori_n_quiz)
+                noti_assi.mainloop()
+
         # Finish notification window
 
         # All the assignments and quizzes
-        update_window(ori_assignments, ori_quizzes, assignments, quizzes)
-        # Finish the whole assignments and quizzes
+        if (ori_assignments != assignments) or (ori_quizzes != quizzes):
+            ori_assignments = assignments
+            ori_quizzes = quizzes
+            win = window(ori_assignments, ori_quizzes)
+            win.mainloop()
 
-    # print(n_assi)
-    # Finish deciding tasks
-    # print(assignments)
+        # Finish the whole assignments and quizzes
