@@ -82,6 +82,11 @@ class notification(tk.Tk):
         self.msg()
         self.table()
         self.image()
+        self.button()
+        
+    def button(self):
+        leaveBtn = tk.Button(self, text='離開',width=10, highlightbackground='beige', fg='darkseagreen',command=lambda:[self.destroy(),self.leave()])
+        leaveBtn.place(relx=0.9,rely=0.88,anchor='center')   
         
     def __del__(self):
         pygame.mixer.music.stop()   #停止音效
