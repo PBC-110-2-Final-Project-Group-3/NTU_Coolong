@@ -69,13 +69,13 @@ class window(Tk):
 
         
         set.insert(parent='',index='end',text='',values=("作業"))
-        if self.assignments == []:
+        if self.assignments == None:
             set.insert(parent='',index='end',iid=i,text='',values=(" "," "," "," "))
         else:
             for i in range(len(self.assignments)):
                 set.insert(parent='',index='end',iid=i,text='',values=(" ",self.assignments[i].course,self.assignments[i].name,self.assignments[i].deadline))
         set.insert(parent='',index='end',text='',values=("考試"))
-        if self.quizzes == []:
+        if self.quizzes == None:
             set.insert(parent='',index='end',iid=i,text='',values=(" "," "," "," "))
         else:
             for j in range(len(self.quizzes)):
